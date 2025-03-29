@@ -1,0 +1,11 @@
+id;type;message;delivered;sent_at;delivery_attempts
+1;SMS;mortally;true;2025-03-29T03:22:00;26062
+2;EMAIL;provided;true;2025-03-28T19:10:47;31531
+3;WHATSAPP;likable amidst;false;2025-03-29T05:57:31;31769
+4;PUSH;develop clamour;true;2025-03-29T12:18:14;31712
+5;EMAIL;yippee;true;2025-03-29T06:24:46;11418
+6;EMAIL;publicize;true;2025-03-29T03:05:25;3077
+7;WHATSAPP;form great furthermore;false;2025-03-29T07:43:42;28603
+8;WHATSAPP;language digitize;true;2025-03-28T20:21:06;977
+9;EMAIL;merrily adaptation soulful;false;2025-03-28T19:21:03;5250
+10;PUSH;medium;false;2025-03-28T18:35:42;28810

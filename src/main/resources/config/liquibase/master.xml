@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+    <property name="floatType" value="float4" dbms="postgresql"/>
+    <property name="clobType" value="clob" dbms="postgresql"/>
+    <property name="blobType" value="blob" dbms="postgresql"/>
+    <property name="uuidType" value="uuid" dbms="postgresql"/>
+    <property name="datetimeType" value="datetime" dbms="postgresql"/>
+
+    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329111740_added_entity_PharmacySubscription.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329112722_added_entity_NotificationPreference.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329114131_added_entity_Product.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329114654_added_entity_Pharmacy.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329115616_added_entity_AppUser.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329120202_added_entity_WatchList.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329120610_added_entity_WatchListItem.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329121312_added_entity_Alert.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329122133_added_entity_Notification.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329123249_added_entity_AppConnectionLog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329125615_added_entity_WatchListLog.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20250329114654_added_entity_constraints_Pharmacy.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329115616_added_entity_constraints_AppUser.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329120202_added_entity_constraints_WatchList.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329120610_added_entity_constraints_WatchListItem.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329121312_added_entity_constraints_Alert.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329122133_added_entity_constraints_Notification.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329123249_added_entity_constraints_AppConnectionLog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20250329125615_added_entity_constraints_WatchListLog.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+    <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
+</databaseChangeLog>

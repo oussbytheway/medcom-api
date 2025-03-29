@@ -1,0 +1,35 @@
+{
+  "annotations": {
+    "changelogDate": "20250329112722"
+  },
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "emailEnabled",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "smsEnabled",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "pushEnabled",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "quietHoursStart",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "quietHoursEnd",
+      "fieldType": "ZonedDateTime"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "NotificationPreference",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

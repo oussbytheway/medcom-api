@@ -1,0 +1,58 @@
+{
+  "annotations": {
+    "changelogDate": "20250329111740"
+  },
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "plan",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "maxWatchListItems",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "maxUsers",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "maxEmailsPerMonth",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "maxSmsPerMonth",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "price",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": []
+    },
+    {
+      "fieldName": "billingCycle",
+      "fieldType": "BillingCycle",
+      "fieldValues": "MONTHLY,YEARLY"
+    },
+    {
+      "fieldName": "trialPeriodDays",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "active",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "notificationTypes",
+      "fieldType": "NotificationType",
+      "fieldValues": "EMAIL,SMS,PUSH"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "PharmacySubscription",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

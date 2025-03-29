@@ -1,0 +1,50 @@
+{
+  "annotations": {
+    "changelogDate": "20250329125615"
+  },
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "updateType",
+      "fieldType": "WatchListUpdateType",
+      "fieldValues": "ADD,REMOVE,CHANGE_PRIORITY,ENABLE_ALERT,DISABLE_ALERT"
+    },
+    {
+      "fieldName": "updateTime",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "userAgent",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "WatchListLog",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "watchListItem",
+      "relationshipName": "watchListItem",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "appUser",
+      "relationshipName": "appUser",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "pharmacy",
+      "relationshipName": "pharmacy",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}
