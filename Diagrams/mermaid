@@ -1,0 +1,166 @@
+---
+title: MedCom V0
+---
+classDiagram
+direction TB
+    class User {
+	    +Long id
+	    +String login
+	    +String password
+	    +String firstName
+	    +String lastName
+	    +String email
+	    +boolean activated
+	    +String langKey
+	    +String imageUrl
+	    +String activationKey
+	    +String resetKey
+	    +Instant resetDate
+    }
+    class Authority {
+	    +String name
+    }
+    class Alert {
+	    +AlertType type
+	    +AlertStatus status
+	    +String message
+	    +ZonedDateTime created
+	    +ZonedDateTime resolvedAt
+    }
+    class AppConnectionLog {
+	    +ConnectionType type
+	    +ZonedDateTime time
+	    +String ipAddress
+	    +String userAgent
+	    +String latitude
+	    +String longitude
+	    +Duration sessionDuration
+	    +ZonedDateTime previousLoginTime
+    }
+    class AppUser {
+	    +String firstName
+	    +String lastName
+	    +String email
+	    +String phone
+	    +String accessCode
+	    +ZonedDateTime accessCodeExpirationDate
+	    +ZonedDateTime lastLogin
+	    +Boolean active
+    }
+    class Notification {
+	    +NotificationType type
+	    +String message
+	    +Boolean delivered
+	    +ZonedDateTime sentAt
+	    +Integer deliveryAttempts
+    }
+    class NotificationPreference {
+	    +Boolean emailEnabled
+	    +Boolean smsEnabled
+	    +Boolean pushEnabled
+	    +ZonedDateTime quietHoursStart
+	    +ZonedDateTime quietHoursEnd
+    }
+    class Pharmacy {
+	    +String name
+	    +String address
+	    +String email
+	    +String phone
+	    +String timeZone
+	    +String website
+	    +Boolean active
+	    +ZonedDateTime created
+	    +String activatedBy
+	    +Boolean deleted
+    }
+    class PharmacySubscription {
+	    +String plan
+	    +Integer maxWatchListItems
+	    +Integer maxUsers
+	    +Integer maxEmailsPerMonth
+	    +Integer maxSmsPerMonth
+	    +BigDecimal price
+	    +BillingCycle billingCycle
+	    +Integer trialPeriodDays
+	    +Boolean active
+	    +NotificationType notificationTypes
+    }
+    class Product {
+	    +String name
+	    +String uniqueId
+	    +String atcCode
+	    +String dosageForm
+	    +String officialUrl
+	    +Boolean active
+	    +ZonedDateTime created
+	    +String createdBy
+	    +ZonedDateTime updated
+	    +String updatedBy
+    }
+    class WatchList {
+	    +String name
+	    +ZonedDateTime created
+	    +Integer limit
+    }
+    class WatchListItem {
+	    +ZonedDateTime dateAdded
+	    +Integer priority
+	    +Boolean alertEnabled
+    }
+    class WatchListLog {
+	    +WatchListUpdateType updateType
+	    +ZonedDateTime updateTime
+	    +String userAgent
+    }
+    class AlertType {
+	    AVAILABILITY
+	    LOW_STOCK
+    }
+    class AlertStatus {
+	    PENDING
+	    SENT
+	    RESOLVED
+    }
+    class ConnectionType {
+	    LOGIN
+	    LOGOUT
+    }
+    class NotificationType {
+	    EMAIL
+	    SMS
+	    PUSH
+    }
+    class BillingCycle {
+	    MONTHLY
+	    YEARLY
+    }
+    class WatchListUpdateType {
+	    ADD
+	    REMOVE
+	    CHANGE_PRIORITY
+	    ENABLE_ALERT
+	    DISABLE_ALERT
+    }
+
+	<<enumeration>> AlertType
+	<<enumeration>> AlertStatus
+	<<enumeration>> ConnectionType
+	<<enumeration>> NotificationType
+	<<enumeration>> BillingCycle
+	<<enumeration>> WatchListUpdateType
+
+    User "many" --o "many" Authority : authorities
+    Pharmacy "1" --> "1" User : PharmacyAdmin
+    WatchList "1" --o "1" Pharmacy : pharmacy
+    Alert "*" --> "1" WatchListItem : watchListItem
+    AppConnectionLog "*" --> "1" AppUser : appUser
+    AppConnectionLog "*" --> "1" Pharmacy : pharmacy
+    AppUser "*" --> "1" Pharmacy : pharmacy
+    Notification "*" --> "1" Alert : alert
+    Notification "*" --> "1" AppUser : appUser
+    Pharmacy "*" --> "1" PharmacySubscription : subscription
+    WatchListItem "*" --> "1" WatchList : watchList
+    WatchListItem "*" --> "1" Product : product
+    WatchListLog "*" --> "1" WatchListItem : watchListItem
+    WatchListLog "*" --> "1" AppUser : appUser
+    WatchListLog "*" --> "1" Pharmacy : pharmacy
