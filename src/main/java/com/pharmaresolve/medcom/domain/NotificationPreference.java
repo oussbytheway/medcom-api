@@ -1,5 +1,6 @@
 package com.pharmaresolve.medcom.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -37,6 +38,10 @@ public class NotificationPreference implements Serializable {
 
     @Column(name = "quiet_hours_end")
     private ZonedDateTime quietHoursEnd;
+
+    @JsonIgnoreProperties(value = { "pharmacy", "notificationPreference" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "notificationPreference")
+    private AppUser appUser;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -116,6 +121,25 @@ public class NotificationPreference implements Serializable {
 
     public void setQuietHoursEnd(ZonedDateTime quietHoursEnd) {
         this.quietHoursEnd = quietHoursEnd;
+    }
+
+    public AppUser getAppUser() {
+        return this.appUser;
+    }
+
+    public void setAppUser(AppUser appUser) {
+        if (this.appUser != null) {
+            this.appUser.setNotificationPreference(null);
+        }
+        if (appUser != null) {
+            appUser.setNotificationPreference(this);
+        }
+        this.appUser = appUser;
+    }
+
+    public NotificationPreference appUser(AppUser appUser) {
+        this.setAppUser(appUser);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

@@ -52,7 +52,7 @@ public class AppConnectionLog implements Serializable {
     private ZonedDateTime previousLoginTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "pharmacy" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "pharmacy", "notificationPreference" }, allowSetters = true)
     private AppUser appUser;
 
     @ManyToOne(fetch = FetchType.LAZY)

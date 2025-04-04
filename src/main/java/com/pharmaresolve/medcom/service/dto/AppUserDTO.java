@@ -32,6 +32,8 @@ public class AppUserDTO implements Serializable {
 
     private PharmacyDTO pharmacy;
 
+    private NotificationPreferenceDTO notificationPreference;
+
     public Long getId() {
         return id;
     }
@@ -112,6 +114,14 @@ public class AppUserDTO implements Serializable {
         this.pharmacy = pharmacy;
     }
 
+    public NotificationPreferenceDTO getNotificationPreference() {
+        return notificationPreference;
+    }
+
+    public void setNotificationPreference(NotificationPreferenceDTO notificationPreference) {
+        this.notificationPreference = notificationPreference;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -147,6 +157,7 @@ public class AppUserDTO implements Serializable {
             ", lastLogin='" + getLastLogin() + "'" +
             ", active='" + getActive() + "'" +
             ", pharmacy=" + getPharmacy() +
+            ", notificationPreference=" + getNotificationPreference() +
             "}";
     }
 }

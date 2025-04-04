@@ -1,6 +1,7 @@
 package com.pharmaresolve.medcom.domain;
 
 import static com.pharmaresolve.medcom.domain.AppUserTestSamples.*;
+import static com.pharmaresolve.medcom.domain.NotificationPreferenceTestSamples.*;
 import static com.pharmaresolve.medcom.domain.PharmacyTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,5 +34,17 @@ class AppUserTest {
 
         appUser.pharmacy(null);
         assertThat(appUser.getPharmacy()).isNull();
+    }
+
+    @Test
+    void notificationPreferenceTest() {
+        AppUser appUser = getAppUserRandomSampleGenerator();
+        NotificationPreference notificationPreferenceBack = getNotificationPreferenceRandomSampleGenerator();
+
+        appUser.setNotificationPreference(notificationPreferenceBack);
+        assertThat(appUser.getNotificationPreference()).isEqualTo(notificationPreferenceBack);
+
+        appUser.notificationPreference(null);
+        assertThat(appUser.getNotificationPreference()).isNull();
     }
 }

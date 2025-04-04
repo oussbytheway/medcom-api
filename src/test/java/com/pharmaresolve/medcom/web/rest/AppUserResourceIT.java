@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pharmaresolve.medcom.IntegrationTest;
 import com.pharmaresolve.medcom.domain.AppUser;
+import com.pharmaresolve.medcom.domain.NotificationPreference;
 import com.pharmaresolve.medcom.repository.AppUserRepository;
 import com.pharmaresolve.medcom.service.dto.AppUserDTO;
 import com.pharmaresolve.medcom.service.mapper.AppUserMapper;
@@ -97,8 +98,8 @@ class AppUserResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static AppUser createEntity() {
-        return new AppUser()
+    public static AppUser createEntity(EntityManager em) {
+        AppUser appUser = new AppUser()
             .firstName(DEFAULT_FIRST_NAME)
             .lastName(DEFAULT_LAST_NAME)
             .email(DEFAULT_EMAIL)
@@ -107,6 +108,17 @@ class AppUserResourceIT {
             .accessCodeExpirationDate(DEFAULT_ACCESS_CODE_EXPIRATION_DATE)
             .lastLogin(DEFAULT_LAST_LOGIN)
             .active(DEFAULT_ACTIVE);
+        // Add required entity
+        NotificationPreference notificationPreference;
+        if (TestUtil.findAll(em, NotificationPreference.class).isEmpty()) {
+            notificationPreference = NotificationPreferenceResourceIT.createEntity();
+            em.persist(notificationPreference);
+            em.flush();
+        } else {
+            notificationPreference = TestUtil.findAll(em, NotificationPreference.class).get(0);
+        }
+        appUser.setNotificationPreference(notificationPreference);
+        return appUser;
     }
 
     /**
@@ -115,8 +127,8 @@ class AppUserResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static AppUser createUpdatedEntity() {
-        return new AppUser()
+    public static AppUser createUpdatedEntity(EntityManager em) {
+        AppUser updatedAppUser = new AppUser()
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
             .email(UPDATED_EMAIL)
@@ -125,11 +137,18 @@ class AppUserResourceIT {
             .accessCodeExpirationDate(UPDATED_ACCESS_CODE_EXPIRATION_DATE)
             .lastLogin(UPDATED_LAST_LOGIN)
             .active(UPDATED_ACTIVE);
+        // Add required entity
+        NotificationPreference notificationPreference;
+        notificationPreference = NotificationPreferenceResourceIT.createUpdatedEntity();
+        em.persist(notificationPreference);
+        em.flush();
+        updatedAppUser.setNotificationPreference(notificationPreference);
+        return updatedAppUser;
     }
 
     @BeforeEach
     public void initTest() {
-        appUser = createEntity();
+        appUser = createEntity(em);
     }
 
     @AfterEach
@@ -161,6 +180,8 @@ class AppUserResourceIT {
         var returnedAppUser = appUserMapper.toEntity(returnedAppUserDTO);
         assertAppUserUpdatableFieldsEquals(returnedAppUser, getPersistedAppUser(returnedAppUser));
 
+        assertAppUserMapsIdRelationshipPersistedValue(appUser, returnedAppUser);
+
         insertedAppUser = returnedAppUser;
     }
 
@@ -180,6 +201,43 @@ class AppUserResourceIT {
 
         // Validate the AppUser in the database
         assertSameRepositoryCount(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    void updateAppUserMapsIdAssociationWithNewId() throws Exception {
+        // Initialize the database
+        insertedAppUser = appUserRepository.saveAndFlush(appUser);
+        long databaseSizeBeforeCreate = getRepositoryCount();
+
+        // Load the appUser
+        AppUser updatedAppUser = appUserRepository.findById(appUser.getId()).orElseThrow();
+        assertThat(updatedAppUser).isNotNull();
+        // Disconnect from session so that the updates on updatedAppUser are not directly saved in db
+        em.detach(updatedAppUser);
+
+        // Update the NotificationPreference with new association value
+        updatedAppUser.setNotificationPreference();
+        AppUserDTO updatedAppUserDTO = appUserMapper.toDto(updatedAppUser);
+        assertThat(updatedAppUserDTO).isNotNull();
+
+        // Update the entity
+        restAppUserMockMvc
+            .perform(
+                put(ENTITY_API_URL_ID, updatedAppUserDTO.getId())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(om.writeValueAsBytes(updatedAppUserDTO))
+            )
+            .andExpect(status().isOk());
+
+        // Validate the AppUser in the database
+        assertSameRepositoryCount(databaseSizeBeforeCreate);
+        /**
+         * Validate the id for MapsId, the ids must be same
+         * Uncomment the following line for assertion. However, please note that there is a known issue and uncommenting will fail the test.
+         * Please look at https://github.com/jhipster/generator-jhipster/issues/9100. You can modify this test as necessary.
+         * assertThat(testAppUser.getId()).isEqualTo(testAppUser.getNotificationPreference().getId());
+         */
     }
 
     @Test

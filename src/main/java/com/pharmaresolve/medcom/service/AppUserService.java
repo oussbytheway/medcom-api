@@ -2,6 +2,7 @@ package com.pharmaresolve.medcom.service;
 
 import com.pharmaresolve.medcom.domain.AppUser;
 import com.pharmaresolve.medcom.repository.AppUserRepository;
+import com.pharmaresolve.medcom.repository.NotificationPreferenceRepository;
 import com.pharmaresolve.medcom.service.dto.AppUserDTO;
 import com.pharmaresolve.medcom.service.mapper.AppUserMapper;
 import java.util.Optional;
@@ -25,9 +26,16 @@ public class AppUserService {
 
     private final AppUserMapper appUserMapper;
 
-    public AppUserService(AppUserRepository appUserRepository, AppUserMapper appUserMapper) {
+    private final NotificationPreferenceRepository notificationPreferenceRepository;
+
+    public AppUserService(
+        AppUserRepository appUserRepository,
+        AppUserMapper appUserMapper,
+        NotificationPreferenceRepository notificationPreferenceRepository
+    ) {
         this.appUserRepository = appUserRepository;
         this.appUserMapper = appUserMapper;
+        this.notificationPreferenceRepository = notificationPreferenceRepository;
     }
 
     /**
@@ -39,6 +47,8 @@ public class AppUserService {
     public AppUserDTO save(AppUserDTO appUserDTO) {
         LOG.debug("Request to save AppUser : {}", appUserDTO);
         AppUser appUser = appUserMapper.toEntity(appUserDTO);
+        Long notificationPreferenceId = appUser.getNotificationPreference().getId();
+        notificationPreferenceRepository.findById(notificationPreferenceId).ifPresent(appUser::notificationPreference);
         appUser = appUserRepository.save(appUser);
         return appUserMapper.toDto(appUser);
     }

@@ -20,8 +20,6 @@ public class AppUser implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
     @Column(name = "id")
     private Long id;
 
@@ -53,6 +51,12 @@ public class AppUser implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties(value = { "subscription", "admin", "watchList" }, allowSetters = true)
     private Pharmacy pharmacy;
+
+    @JsonIgnoreProperties(value = { "appUser" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "id")
+    private NotificationPreference notificationPreference;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -183,6 +187,19 @@ public class AppUser implements Serializable {
 
     public AppUser pharmacy(Pharmacy pharmacy) {
         this.setPharmacy(pharmacy);
+        return this;
+    }
+
+    public NotificationPreference getNotificationPreference() {
+        return this.notificationPreference;
+    }
+
+    public void setNotificationPreference(NotificationPreference notificationPreference) {
+        this.notificationPreference = notificationPreference;
+    }
+
+    public AppUser notificationPreference(NotificationPreference notificationPreference) {
+        this.setNotificationPreference(notificationPreference);
         return this;
     }
 

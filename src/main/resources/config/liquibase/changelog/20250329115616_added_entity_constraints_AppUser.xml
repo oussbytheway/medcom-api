@@ -16,5 +16,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="pharmacy"
                                  />
+
+        <addForeignKeyConstraint baseColumnNames="id"
+                                 baseTableName="app_user"
+                                 constraintName="fk_app_user__notification_preference_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="notification_preference"
+                                 />
     </changeSet>
 </databaseChangeLog>

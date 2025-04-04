@@ -49,6 +49,15 @@
       "relationshipName": "pharmacy",
       "relationshipSide": "left",
       "relationshipType": "many-to-one"
+    },
+    {
+      "id": true,
+      "otherEntityField": "id",
+      "otherEntityName": "notificationPreference",
+      "otherEntityRelationshipName": "appUser",
+      "relationshipName": "notificationPreference",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
     }
   ],
   "searchEngine": "no",

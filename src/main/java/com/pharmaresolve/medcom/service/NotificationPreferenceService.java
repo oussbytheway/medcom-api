@@ -4,7 +4,11 @@ import com.pharmaresolve.medcom.domain.NotificationPreference;
 import com.pharmaresolve.medcom.repository.NotificationPreferenceRepository;
 import com.pharmaresolve.medcom.service.dto.NotificationPreferenceDTO;
 import com.pharmaresolve.medcom.service.mapper.NotificationPreferenceMapper;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -89,6 +93,19 @@ public class NotificationPreferenceService {
     public Page<NotificationPreferenceDTO> findAll(Pageable pageable) {
         LOG.debug("Request to get all NotificationPreferences");
         return notificationPreferenceRepository.findAll(pageable).map(notificationPreferenceMapper::toDto);
+    }
+
+    /**
+     *  Get all the notificationPreferences where AppUser is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<NotificationPreferenceDTO> findAllWhereAppUserIsNull() {
+        LOG.debug("Request to get all notificationPreferences where AppUser is null");
+        return StreamSupport.stream(notificationPreferenceRepository.findAll().spliterator(), false)
+            .filter(notificationPreference -> notificationPreference.getAppUser() == null)
+            .map(notificationPreferenceMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**

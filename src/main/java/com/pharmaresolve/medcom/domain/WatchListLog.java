@@ -40,7 +40,7 @@ public class WatchListLog implements Serializable {
     private WatchListItem watchListItem;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "pharmacy" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "pharmacy", "notificationPreference" }, allowSetters = true)
     private AppUser appUser;
 
     @ManyToOne(fetch = FetchType.LAZY)

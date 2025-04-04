@@ -60,6 +60,9 @@ public class AppUserResource {
         if (appUserDTO.getId() != null) {
             throw new BadRequestAlertException("A new appUser cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if (Objects.isNull(appUserDTO.getNotificationPreference())) {
+            throw new BadRequestAlertException("Invalid association value provided", ENTITY_NAME, "null");
+        }
         appUserDTO = appUserService.save(appUserDTO);
         return ResponseEntity.created(new URI("/api/app-users/" + appUserDTO.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, appUserDTO.getId().toString()))

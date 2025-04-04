@@ -1,5 +1,6 @@
 package com.pharmaresolve.medcom.domain;
 
+import static com.pharmaresolve.medcom.domain.AppUserTestSamples.*;
 import static com.pharmaresolve.medcom.domain.NotificationPreferenceTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,5 +21,19 @@ class NotificationPreferenceTest {
 
         notificationPreference2 = getNotificationPreferenceSample2();
         assertThat(notificationPreference1).isNotEqualTo(notificationPreference2);
+    }
+
+    @Test
+    void appUserTest() {
+        NotificationPreference notificationPreference = getNotificationPreferenceRandomSampleGenerator();
+        AppUser appUserBack = getAppUserRandomSampleGenerator();
+
+        notificationPreference.setAppUser(appUserBack);
+        assertThat(notificationPreference.getAppUser()).isEqualTo(appUserBack);
+        assertThat(appUserBack.getNotificationPreference()).isEqualTo(notificationPreference);
+
+        notificationPreference.appUser(null);
+        assertThat(notificationPreference.getAppUser()).isNull();
+        assertThat(appUserBack.getNotificationPreference()).isNull();
     }
 }

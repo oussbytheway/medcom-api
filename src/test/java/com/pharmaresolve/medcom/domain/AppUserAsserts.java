@@ -28,6 +28,17 @@ public class AppUserAsserts {
     }
 
     /**
+     * Asserts that the derived primary key is set correctly.
+     *
+     * @param entityToPersist the entity used to persist
+     * @param persisted the persisted entity
+     */
+    public static void assertAppUserMapsIdRelationshipPersistedValue(AppUser entityToPersist, AppUser persisted) {
+        // Validate the id for MapsId, the ids must be same
+        assertThat(entityToPersist.getNotificationPreference().getId()).isEqualTo(persisted.getId());
+    }
+
+    /**
      * Asserts that the entity has all the auto generated properties (fields/relationships) set.
      *
      * @param expected the expected entity
