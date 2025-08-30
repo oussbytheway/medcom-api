@@ -308,11 +308,7 @@ class WatchlistItemResourceIT {
         WatchlistItem partialUpdatedWatchlistItem = new WatchlistItem();
         partialUpdatedWatchlistItem.setId(watchlistItem.getId());
 
-        partialUpdatedWatchlistItem
-            .dateAdded(UPDATED_DATE_ADDED)
-            .priority(UPDATED_PRIORITY)
-            .addedBy(UPDATED_ADDED_BY)
-            .alertEnabled(UPDATED_ALERT_ENABLED);
+        partialUpdatedWatchlistItem.alertEnabled(UPDATED_ALERT_ENABLED);
 
         restWatchlistItemMockMvc
             .perform(

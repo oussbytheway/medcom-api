@@ -406,14 +406,7 @@ class PharmacyResourceIT {
         Pharmacy partialUpdatedPharmacy = new Pharmacy();
         partialUpdatedPharmacy.setId(pharmacy.getId());
 
-        partialUpdatedPharmacy
-            .name(UPDATED_NAME)
-            .address(UPDATED_ADDRESS)
-            .email(UPDATED_EMAIL)
-            .active(UPDATED_ACTIVE)
-            .activatedBy(UPDATED_ACTIVATED_BY)
-            .deleted(UPDATED_DELETED)
-            .deletedBy(UPDATED_DELETED_BY);
+        partialUpdatedPharmacy.address(UPDATED_ADDRESS).email(UPDATED_EMAIL).createdBy(UPDATED_CREATED_BY);
 
         restPharmacyMockMvc
             .perform(

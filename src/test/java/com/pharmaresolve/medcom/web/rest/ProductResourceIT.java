@@ -379,11 +379,12 @@ class ProductResourceIT {
         partialUpdatedProduct.setId(product.getId());
 
         partialUpdatedProduct
-            .name(UPDATED_NAME)
             .uniqueId(UPDATED_UNIQUE_ID)
             .atcCode(UPDATED_ATC_CODE)
             .officialUrl(UPDATED_OFFICIAL_URL)
+            .active(UPDATED_ACTIVE)
             .created(UPDATED_CREATED)
+            .createdBy(UPDATED_CREATED_BY)
             .updated(UPDATED_UPDATED);
 
         restProductMockMvc
