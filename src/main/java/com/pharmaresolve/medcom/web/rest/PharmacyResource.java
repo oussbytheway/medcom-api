@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -61,7 +62,7 @@ public class PharmacyResource {
         if (pharmacyDTO.getId() != null) {
             throw new BadRequestAlertException("A new pharmacy cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        pharmacyDTO = pharmacyService.save(pharmacyDTO);
+        pharmacyDTO = pharmacyService.create(pharmacyDTO);
         return ResponseEntity.created(new URI("/api/pharmacies/" + pharmacyDTO.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, pharmacyDTO.getId().toString()))
             .body(pharmacyDTO);

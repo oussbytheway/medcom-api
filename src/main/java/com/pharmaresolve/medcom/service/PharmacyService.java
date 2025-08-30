@@ -1,14 +1,19 @@
 package com.pharmaresolve.medcom.service;
 
 import com.pharmaresolve.medcom.domain.Pharmacy;
+import com.pharmaresolve.medcom.domain.Watchlist;
 import com.pharmaresolve.medcom.repository.PharmacyRepository;
+import com.pharmaresolve.medcom.repository.WatchlistRepository;
 import com.pharmaresolve.medcom.service.dto.PharmacyDTO;
+import com.pharmaresolve.medcom.service.dto.WatchlistDTO;
 import com.pharmaresolve.medcom.service.mapper.PharmacyMapper;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import com.pharmaresolve.medcom.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -29,9 +34,44 @@ public class PharmacyService {
 
     private final PharmacyMapper pharmacyMapper;
 
-    public PharmacyService(PharmacyRepository pharmacyRepository, PharmacyMapper pharmacyMapper) {
+    private final WatchlistService watchlistService;
+
+    public PharmacyService(PharmacyRepository pharmacyRepository, PharmacyMapper pharmacyMapper, WatchlistService watchlistService) {
         this.pharmacyRepository = pharmacyRepository;
         this.pharmacyMapper = pharmacyMapper;
+        this.watchlistService = watchlistService;
+    }
+
+    /**
+     * Create a new pharmacy with its associated watchlist.
+     *
+     * @param pharmacyDTO the pharmacy entity to create.
+     * @return the persisted pharmacy entity with its watchlist.
+     * @throws BadRequestAlertException if the pharmacy already has an ID.
+     */
+    @Transactional
+    public PharmacyDTO create(PharmacyDTO pharmacyDTO) {
+        LOG.debug("Request to create Pharmacy with Watchlist : {}", pharmacyDTO);
+
+        // Validate pharmacy name is present (required for watchlist naming)
+        if (pharmacyDTO.getName() == null || pharmacyDTO.getName().trim().isEmpty()) {
+            throw new BadRequestAlertException("Pharmacy name is required", "pharmacy", "nameRequired");
+        }
+
+        // Convert to entity and save pharmacy first
+        pharmacyDTO.setActive(true);
+        PharmacyDTO savedPharmacy = save(pharmacyDTO);
+
+        // Create and save the associated watchlist
+        WatchlistDTO watchlist = new WatchlistDTO();
+        watchlist.setId(savedPharmacy.getId()); // Same ID as pharmacy due to @MapsId
+        watchlist.setName(savedPharmacy.getName() + " Watchlist");
+        watchlist.setLimit(10);
+        watchlist.setPharmacy(savedPharmacy);
+
+        watchlistService.save(watchlist);
+
+        return savedPharmacy;
     }
 
     /**
