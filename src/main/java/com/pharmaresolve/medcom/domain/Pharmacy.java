@@ -1,5 +1,6 @@
 package com.pharmaresolve.medcom.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
@@ -61,6 +62,10 @@ public class Pharmacy implements Serializable {
 
     @Column(name = "deleted_by")
     private String deletedBy;
+
+    @JsonIgnoreProperties(value = { "pharmacy" }, allowSetters = true)
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "pharmacy")
+    private Watchlist watchlist;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -231,6 +236,25 @@ public class Pharmacy implements Serializable {
 
     public void setDeletedBy(String deletedBy) {
         this.deletedBy = deletedBy;
+    }
+
+    public Watchlist getWatchlist() {
+        return this.watchlist;
+    }
+
+    public void setWatchlist(Watchlist watchlist) {
+        if (this.watchlist != null) {
+            this.watchlist.setPharmacy(null);
+        }
+        if (watchlist != null) {
+            watchlist.setPharmacy(this);
+        }
+        this.watchlist = watchlist;
+    }
+
+    public Pharmacy watchlist(Watchlist watchlist) {
+        this.setWatchlist(watchlist);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

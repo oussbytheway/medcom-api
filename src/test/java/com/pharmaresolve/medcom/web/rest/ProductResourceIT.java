@@ -380,6 +380,7 @@ class ProductResourceIT {
 
         partialUpdatedProduct
             .name(UPDATED_NAME)
+            .uniqueId(UPDATED_UNIQUE_ID)
             .atcCode(UPDATED_ATC_CODE)
             .officialUrl(UPDATED_OFFICIAL_URL)
             .created(UPDATED_CREATED)

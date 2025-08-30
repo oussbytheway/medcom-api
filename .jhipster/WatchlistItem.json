@@ -1,0 +1,46 @@
+{
+  "annotations": {
+    "changelogDate": "20250830203457"
+  },
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "dateAdded",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "priority",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "addedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "alertEnabled",
+      "fieldType": "Boolean"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "WatchlistItem",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "watchlist",
+      "relationshipName": "watchlist",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "product",
+      "relationshipName": "product",
+      "relationshipSide": "left",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

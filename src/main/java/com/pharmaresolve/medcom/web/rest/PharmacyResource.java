@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -139,10 +140,18 @@ public class PharmacyResource {
      * {@code GET  /pharmacies} : get all the pharmacies.
      *
      * @param pageable the pagination information.
+     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of pharmacies in body.
      */
     @GetMapping("")
-    public ResponseEntity<List<PharmacyDTO>> getAllPharmacies(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
+    public ResponseEntity<List<PharmacyDTO>> getAllPharmacies(
+        @org.springdoc.core.annotations.ParameterObject Pageable pageable,
+        @RequestParam(name = "filter", required = false) String filter
+    ) {
+        if ("watchlist-is-null".equals(filter)) {
+            LOG.debug("REST request to get all Pharmacys where watchlist is null");
+            return new ResponseEntity<>(pharmacyService.findAllWhereWatchlistIsNull(), HttpStatus.OK);
+        }
         LOG.debug("REST request to get a page of Pharmacies");
         Page<PharmacyDTO> page = pharmacyService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

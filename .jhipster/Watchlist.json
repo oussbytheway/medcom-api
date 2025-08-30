@@ -1,0 +1,33 @@
+{
+  "annotations": {
+    "changelogDate": "20250830202617"
+  },
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "limit",
+      "fieldType": "Integer"
+    }
+  ],
+  "jpaMetamodelFiltering": false,
+  "name": "Watchlist",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "id": true,
+      "otherEntityField": "id",
+      "otherEntityName": "pharmacy",
+      "otherEntityRelationshipName": "watchlist",
+      "relationshipName": "pharmacy",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceClass"
+}

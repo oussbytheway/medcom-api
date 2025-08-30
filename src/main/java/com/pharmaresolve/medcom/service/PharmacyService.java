@@ -4,7 +4,11 @@ import com.pharmaresolve.medcom.domain.Pharmacy;
 import com.pharmaresolve.medcom.repository.PharmacyRepository;
 import com.pharmaresolve.medcom.service.dto.PharmacyDTO;
 import com.pharmaresolve.medcom.service.mapper.PharmacyMapper;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -86,6 +90,19 @@ public class PharmacyService {
     public Page<PharmacyDTO> findAll(Pageable pageable) {
         LOG.debug("Request to get all Pharmacies");
         return pharmacyRepository.findAll(pageable).map(pharmacyMapper::toDto);
+    }
+
+    /**
+     *  Get all the pharmacies where Watchlist is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<PharmacyDTO> findAllWhereWatchlistIsNull() {
+        LOG.debug("Request to get all pharmacies where Watchlist is null");
+        return StreamSupport.stream(pharmacyRepository.findAll().spliterator(), false)
+            .filter(pharmacy -> pharmacy.getWatchlist() == null)
+            .map(pharmacyMapper::toDto)
+            .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**

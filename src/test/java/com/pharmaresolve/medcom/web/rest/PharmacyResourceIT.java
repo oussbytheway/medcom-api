@@ -410,9 +410,9 @@ class PharmacyResourceIT {
             .name(UPDATED_NAME)
             .address(UPDATED_ADDRESS)
             .email(UPDATED_EMAIL)
-            .website(UPDATED_WEBSITE)
             .active(UPDATED_ACTIVE)
-            .createdBy(UPDATED_CREATED_BY)
+            .activatedBy(UPDATED_ACTIVATED_BY)
+            .deleted(UPDATED_DELETED)
             .deletedBy(UPDATED_DELETED_BY);
 
         restPharmacyMockMvc

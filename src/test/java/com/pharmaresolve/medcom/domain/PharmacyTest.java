@@ -1,6 +1,7 @@
 package com.pharmaresolve.medcom.domain;
 
 import static com.pharmaresolve.medcom.domain.PharmacyTestSamples.*;
+import static com.pharmaresolve.medcom.domain.WatchlistTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.pharmaresolve.medcom.web.rest.TestUtil;
@@ -20,5 +21,19 @@ class PharmacyTest {
 
         pharmacy2 = getPharmacySample2();
         assertThat(pharmacy1).isNotEqualTo(pharmacy2);
+    }
+
+    @Test
+    void watchlistTest() {
+        Pharmacy pharmacy = getPharmacyRandomSampleGenerator();
+        Watchlist watchlistBack = getWatchlistRandomSampleGenerator();
+
+        pharmacy.setWatchlist(watchlistBack);
+        assertThat(pharmacy.getWatchlist()).isEqualTo(watchlistBack);
+        assertThat(watchlistBack.getPharmacy()).isEqualTo(pharmacy);
+
+        pharmacy.watchlist(null);
+        assertThat(pharmacy.getWatchlist()).isNull();
+        assertThat(watchlistBack.getPharmacy()).isNull();
     }
 }
